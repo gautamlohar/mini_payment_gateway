@@ -66,6 +66,7 @@ The server will start on `http://localhost:3000` by default.
 
 ## Testing
 Run all unit and integration tests:
+  - Delete dist folder from your local.
 ```bash
 npm test
 ```
