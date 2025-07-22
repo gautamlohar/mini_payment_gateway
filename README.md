@@ -73,16 +73,17 @@ npm test
 ## Project Structure
 ```
 src/
-  app.ts                # Express app setup
-  index.ts              # Server entry point
+  app.ts                     # Express app setup
+  index.ts                   # Server entry point
   routes/
-    charge.routes.ts    # /charge route
+    charge.routes.ts         # /charge route
+    transactions.routes.ts   # /transactions route
   controllers/
-    charge.controller.ts# Controller for /charge
+    charge.controller.ts     # Controller for /charge
   services/
-    fraud.service.ts    # Fraud risk logic
-    llm.service.ts      # LLM integration (Gemini/OpenAI)
-    transactionLogger.ts#Log transactions in memory.
+    fraud.service.ts         # Fraud risk logic
+    llm.service.ts           # LLM integration (Gemini/OpenAI)
+    transactionLogger.ts     #Log transactions in memory.
 ```
 
 ## License
