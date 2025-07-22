@@ -64,9 +64,9 @@ The server will start on `http://localhost:3000` by default.
 - 403: Blocked due to high fraud risk, includes fraud score and LLM explanation.
 - 400: Invalid input.
 
-##Fraud Detection Logic
+## Fraud Detection Logic
 
-###The app evaluates fraud risk based on simple heuristics:
+### The app evaluates fraud risk based on simple heuristics:
 - Amount-Based Risk: Transactions over $500 contribute significantly to risk score.
  - Email Domain Check: Suspicious domains like .ru and test.com increase the fraud risk.
  - Score & Decision:
@@ -75,21 +75,21 @@ The server will start on `http://localhost:3000` by default.
   - A score >= 0.5 results in the transaction being blocked. 
   - Lower-risk transactions are randomly routed to either Stripe or PayPal.
 ```
-###Example Heuristic Logic:
+### Example Heuristic Logic:
 ```bash
   if (amount > 500) score += 0.5;
   if (email ends with '.ru' or 'test.com') score += 0.5;
   if (score >= 0.5) block transaction; else route to gateway.
 ```
 
-##LLM-Powered Risk Explanation
+## LLM-Powered Risk Explanation
 
-###After fraud scoring, the app generates a plain-English explanation using an LLM (Large Language Model):
+### After fraud scoring, the app generates a plain-English explanation using an LLM (Large Language Model):
   - Primary LLM: Google Gemini API
   - Fallback LLM: OpenAI's ChatGPT (gpt-3.5-turbo)
   - Prompts include key metadata like: amount, currency, source, email, and the final fraud score.
 
-###Sample Prompt to LLM:
+### Sample Prompt to LLM:
 - A payment request was scored for fraud risk.
 ```bash
   payload
@@ -101,7 +101,7 @@ The server will start on `http://localhost:3000` by default.
     "email": "user@example.com"
   }
 ```
-###The LLM responds with a natural language explanation such as:
+### The LLM responds with a natural language explanation such as:
 -The payment request for $1000 USD from a Visa token with the email user@example.com received a fraud score of 0.5, indicating a moderate level of potential fraud based on the provided details. (via Gemini)
 
 ## Testing
