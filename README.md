@@ -4,6 +4,7 @@ This project is a Node.js + TypeScript Express API that simulates a payment gate
 
 ## Features
 - **POST /charge**: Accepts payment details, evaluates fraud risk, and returns a risk summary from an LLM.
+- **GET /transactions**: Returns a list of all in-memory transactions processed by the system.
 - **LLM Support**: Uses Gemini by default, falls back to OpenAI if Gemini fails.
 - **Modular Structure**: Clean separation of app, routes, controllers, and services.
 - **Unit & Integration Tests**: Jest and Supertest for robust testing.
@@ -63,6 +64,40 @@ The server will start on `http://localhost:3000` by default.
 - 200: Routed to payment gateway, includes fraud score and LLM explanation.
 - 403: Blocked due to high fraud risk, includes fraud score and LLM explanation.
 - 400: Invalid input.
+
+### GET /transactions
+**Returns a list of all in-memory transactions processed by the system. This is useful for:**
+- Debugging recent payments
+- Reviewing fraud scores and LLM summaries
+- Inspecting routing decisions (e.g., blocked, stripe, paypal)
+**Response Body:**
+```json
+[
+    {
+        "timestamp": "2025-07-22T10:24:29.430Z",
+        "transactionId": "a4807c3d-63cb-4d28-a9cc-e7fc8e8cf290",
+        "amount": 3000,
+        "currency": "USD",
+        "source": "tok_visa",
+        "email": "user@example.com",
+        "riskScore": 0.5,
+        "status": "blocked",
+        "explanation": "The payment request was flagged as potentially fraudulent because factors like the amount, card type, and email, combined, triggered a moderate fraud risk score. (via Gemini)"
+    },
+    {
+        "timestamp": "2025-07-22T10:33:36.120Z",
+        "transactionId": "80f03c1c-bc04-4f1e-b923-3f8005861a94",
+        "amount": 501,
+        "currency": "USD",
+        "source": "tok_visa",
+        "email": "user@example.com",
+        "riskScore": 0.5,
+        "status": "blocked",
+        "explanation": "A fraud risk score of 0.5 suggests there's a moderate level of suspicion associated with this payment request, possibly due to a combination of factors related to the amount, payment method, and email address. (via Gemini)"
+    }
+]
+```
+
 
 ## Fraud Detection Logic
 
